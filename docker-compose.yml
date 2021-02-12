@@ -1,0 +1,23 @@
+version: '3.7'
+
+services: 
+  db:
+    build: ./node-mysql-db
+    hostname: db
+    environment: 
+      MYSQL_DATABASE: catering_order
+      MYSQL_ROOT_PASSWORD: catering
+  api:
+    build: ./node-mysql-api
+    environment: 
+      WAIT_HOSTS: db:3306
+      DATABASE_HOST: db
+      MYSQL_DATABASE: catering_order
+      MYSQL_ROOT_PASSWORD: catering
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - db
+    restart: on-failure
